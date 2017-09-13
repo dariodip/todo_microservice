@@ -1,0 +1,122 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TODO",
+		"_postman_id": "a8b09d44-837b-40a4-48e1-f699d8b5849f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Home",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"",
+							"tests[\"Body is correct\"] = responseBody === \"Welcome in TODO list\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{HOST}}:{{PORT}}/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add a TODO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 201;",
+							"",
+							"",
+							"postman.setGlobalVariable(\"TODO_ID\", \"123\");",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{HOST}}:{{PORT}}/v1.0/todos/123",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"created\": \"2015-07-07T15:49:51.230+02:00\",\r\n  \"description\": \"You have to do it\",\r\n  \"id\": \"123\",\r\n  \"status\": \"active\",\r\n  \"tags\": {},\r\n  \"title\": \"Do this\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "All todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Collection not empty\"] = jsonData.length > 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{HOST}}:{{PORT}}/v1.0/todos",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Find a todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{HOST}}:{{PORT}}/v1.0/todos/{{TODO_ID}}",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

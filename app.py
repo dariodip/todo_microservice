@@ -20,8 +20,13 @@ class DatabaseModule(Module):
         )
 
 injector = Injector([DatabaseModule()])
+app = connexion.App(__name__)
+
+
+@app.route('/')
+def home():
+    return "Welcome in TODO list", 200
 
 if __name__ == '__main__':
-    app = connexion.App(__name__)
     app.add_api('swagger/todo.yaml', arguments={'title': 'Simple todo list'})
     app.run(port=8080, server='gevent')
