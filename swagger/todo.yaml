@@ -1,0 +1,144 @@
+swagger: '2.0'
+info:
+  title: {{ title }}
+  description: A simple microservice to handle a todo list
+  version: "0.1"
+consumes:
+  - application/json
+produces:
+  - application/json
+security:
+  # enable OAuth protection for all REST endpoints
+  # (only active if the TOKENINFO_URL environment variable is set)
+  - oauth2: [uid]
+
+basePath: /v1.0
+
+paths:
+  /todos:
+    get:
+      tags: [Todo]
+      operationId: api.todo.class_instance.get_todos
+      summary: Get all todos
+      parameters:
+        - name: status
+          in: query
+          type: string
+          pattern: "^[a-zA-Z0-9]*$"
+        - name: limit
+          in: query
+          type: integer
+          minimum: 0
+          default: 100
+        - name: sort
+          in: query
+          description: Sort order
+          type: string
+          enum: [asc, desc]
+      responses:
+        200:
+          description: Return all todos
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Todo'
+  /todos/{todo_id}:
+    get:
+      tags: [Todo]
+      operationId: api.todo.class_instance.get_todo
+      summary: Get a single todo
+      parameters:
+        - $ref: '#/parameters/todo_id'
+      responses:
+        200:
+          description: Return todo
+          schema:
+            $ref: '#/definitions/Todo'
+        404:
+          description: Todo does not exist
+    put:
+      tags: [Todo]
+      operationId: api.todo.class_instance.put_todo
+      summary: Create or update a todo
+      parameters:
+        - $ref: '#/parameters/todo_id'
+        - name: todo
+          in: body
+          schema:
+            $ref: '#/definitions/Todo'
+      responses:
+        200:
+          description: Todo updated
+        201:
+          description: New todo created
+    delete:
+      tags: [Todo]
+      operationId: api.todo.class_instance.delete_todo
+      summary: Remove a todo
+      parameters:
+        - $ref: '#/parameters/todo_id'
+      responses:
+        204:
+          description: Todo was deleted
+        404:
+          description: Todo does not exist
+
+
+parameters:
+  todo_id:
+    name: todo_id
+    description: Todo's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+
+definitions:
+  Todo:
+    type: object
+    required:
+      - title
+      - description
+      - status
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        example: "123"
+        readOnly: true
+      title:
+        type: string
+        description: Todo's title
+        example: "Do this"
+        minLength: 1
+        maxLength: 100
+      status:
+        type: string
+        description: Status of the todo
+        example: "active"
+        minLength: 1
+        enum: [active, done, cancelled]
+      description:
+        type: string
+        description: Todo description
+        example: "You have to do it"
+        minLength: 1
+        maxLength: 1000
+      tags:
+        type: object
+        description: Custom tags
+      created:
+        type: string
+        format: date-time
+        description: Creation time
+        example: "2015-07-07T15:49:51.230+02:00"
+        readOnly: true
+
+
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: https://example.com/oauth2/dialog
+    scopes:
+      uid: Unique identifier of the user accessing the service.
