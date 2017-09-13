@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  web:
-    build: .
+  server:
+    build: python-server
     environment:
       - DB_HOST=mongo
       - DB_PORT=27017
@@ -21,6 +21,12 @@ services:
       - "27017:27017"
     networks:
       - webnet
+  client:
+    build: angular-client
+    ports:
+      - "4200:4200"
+    depends_on:
+      - server
 
 networks:
   webnet:

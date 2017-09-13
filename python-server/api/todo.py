@@ -1,6 +1,7 @@
 from datetime import datetime
-from connexion import NoContent
+
 from app import injector
+from connexion import NoContent
 from injector import inject
 from services.storage import TodoSearch
 
