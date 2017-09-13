@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    environment:
+      - DB_HOST=mongo
+      - DB_PORT=27017
+    ports:
+      - "8080:8080"
+    networks:
+      - webnet
+    volumes:
+      - .:/code
+    restart: on-failure
+    depends_on:
+      - mongo
+  mongo:
+    image: "mongo:3.0.2"
+    ports:
+      - "27017:27017"
+    networks:
+      - webnet
+
+networks:
+  webnet:

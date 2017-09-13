@@ -14,7 +14,7 @@ class MongoFactory(object):
         )
 
 
-class PetSearch(object):
+class TodoSearch(object):
 
     def __init__(self, mongo_factory: MongoFactory, collection: str, db_name: str):
         self.mongo_factory = mongo_factory
@@ -25,14 +25,13 @@ class PetSearch(object):
     def connection(self) -> MongoClient:
         if not self.instance:
             self.instance = self.mongo_factory.create()
-
         return self.instance[self.db_name]
 
     def find_all(self, query=None) -> list:
         db = self.connection()
         collection = self.collection
-        pets = db[collection].find(query if query is not None else {}, {'_id': False})
-        return pets
+        todos = db[collection].find(query if query is not None else {}, {'_id': False})
+        return todos
 
     def find_by_id(self, query: dict) -> list:
         db = self.connection()
