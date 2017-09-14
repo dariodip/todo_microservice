@@ -1,7 +1,26 @@
 <input type="checkbox" class="checkbox" (click)="checkTodo()" [checked]="todo.status==='done'">
+
 <a data-toggle="collapse" href="#{{contentId}}" aria-expanded="false">{{todo.title}}</a>
+
 <div id="{{contentId}}" class="collapse">
-  <p>{{todo.description}}</p>
-  <p>Created at: {{todo.created}}</p>
+  <div *ngIf="!editable">
+    <p>{{todo.description}}</p>
+    <p>Created at: {{todo.created}}</p>
+    <button type="button" class="btn btn-secondary" (click)="setEditable()" [disabled]="todo.status === 'done'">Modifica</button>
+  </div>
+
+  <div *ngIf="editable">
+    <div class="form-group">
+      <label for="titleInput">Titolo</label>
+      <input type="text" [(ngModel)]="todo.title" class="form-control" id="titleInput" placeholder="Titolo">
+    </div>
+    <div class="form-group">
+      <label for="descriptionInput">Password</label>
+      <textarea [(ngModel)]="todo.description" class="form-control" id="descriptionInput" placeholder="Descrizione"></textarea>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="saveChanges()">Applica</button>
+    <button type="button" class="btn btn-secondary" (click)="undo()">Annulla</button>
+  </div>
 </div>
+
 <span class="close" (click)="deleteTodo(todo.id); $event.stopPropagation()">&#215;</span>

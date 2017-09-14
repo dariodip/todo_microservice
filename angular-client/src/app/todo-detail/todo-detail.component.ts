@@ -12,6 +12,8 @@ export class TodoDetailComponent implements OnInit {
   @Input() todo: Todo;
   @Output() clickDelete = new EventEmitter<number>();
   private contentId: string;
+  private editable = false;
+  private oldTodo: Todo; //for undoing change
 
   constructor(private todoService: TodoService) { }
 
@@ -32,4 +34,27 @@ export class TodoDetailComponent implements OnInit {
     this.todoService.updateTodo(this.todo)
       .then(() => null);
   }
+
+  disableEditing(): void {
+    this.editable = false;
+  }
+
+  setEditable(): void {
+    this.editable = true;
+    this.oldTodo = Object.assign({}, this.todo);
+  }
+
+  undo(): void {
+    this.todo.title = this.oldTodo.title;
+    this.todo.description = this.oldTodo.description;
+    this.disableEditing();
+  }
+
+  saveChanges(): void {
+    this.todoService.updateTodo(this.todo)
+      .then(() => null);
+    this.disableEditing()
+  }
+
+
 }

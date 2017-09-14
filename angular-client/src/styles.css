@@ -56,15 +56,6 @@ ul li.checked {
     clear: both;
 }
 
-/* Style the input */
-input {
-    border: none;
-    width: 75%;
-    padding: 10px;
-    float: left;
-    font-size: 16px;
-}
-
 /* Style the "Add" button */
 .addBtn {
     padding: 10px;
