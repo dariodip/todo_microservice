@@ -7,8 +7,5 @@ import {Component, OnInit} from '@angular/core';
 })
 
 export class AppComponent{
-
-  title = 'app works!';
-  API = 'http://localhost:8000/v1.0';
-
+  title = 'My Todo List!';
 }
