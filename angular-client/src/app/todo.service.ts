@@ -22,7 +22,7 @@ export class TodoService {
       .catch(this.handleError);
   }
 
-  deleteTodos(todoId: number): Promise<void> {
+  deleteTodo(todoId: number): Promise<void> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
                   + '/' + todoId;
     return this.http.delete(url)

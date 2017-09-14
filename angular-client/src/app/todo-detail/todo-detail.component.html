@@ -1,4 +1,4 @@
 <h4>{{todo.title}}</h4>
 <p>{{todo.description}}</p>
 <p>Created at: {{todo.created}}</p>
-<span class="close">&#215;</span>
+<span class="close" (click)="deleteTodo(todo.id); $event.stopPropagation()">&#215;</span>

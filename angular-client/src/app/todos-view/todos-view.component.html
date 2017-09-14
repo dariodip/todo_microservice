@@ -1,5 +1,5 @@
 <ul id="myUL">
-  <li *ngFor="let todo of todos" (click)="deleteTodo(todo); $event.stopPropagation()">
-    <app-todo-detail [todo]="todo"></app-todo-detail>
+  <li *ngFor="let todo of todos">
+    <app-todo-detail [todo]="todo" (clickDelete)="deleteTodo($event)"></app-todo-detail>
   </li>
 </ul>
