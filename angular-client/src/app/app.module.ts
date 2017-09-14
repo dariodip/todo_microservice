@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 import { TodosApiService} from "./todosapi.service";
+import { TodoService } from "./todo.service";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TodosApiService} from "./todosapi.service";
   ],
   providers: [
     TodosApiService,
+    TodoService
   ],
   bootstrap: [AppComponent]
 })
