@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 import {Todo} from "./todo";
 import {TodosApiService} from "./todosapi.service";
 
@@ -7,6 +7,8 @@ import 'rxjs/add/operator/toPromise'
 
 @Injectable()
 export class TodoService {
+
+  private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(
     private http: Http,
@@ -28,6 +30,15 @@ export class TodoService {
     return this.http.delete(url)
       .toPromise()
       .then(() => null)
+      .catch(this.handleError);
+  }
+
+  updateTodo(todo: Todo): Promise<void> {
+    const url = this.apiInfo.base_url + this.apiInfo.todo_path
+                  + '/' + todo.id;
+    return this.http.put(url, JSON.stringify(todo), {headers: this.headers})
+      .toPromise()
+      .then(() => todo)
       .catch(this.handleError);
   }
 

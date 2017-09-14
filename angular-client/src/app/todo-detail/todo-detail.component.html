@@ -1,4 +1,7 @@
-<h4>{{todo.title}}</h4>
-<p>{{todo.description}}</p>
-<p>Created at: {{todo.created}}</p>
+<input type="checkbox" class="checkbox" (click)="checkTodo()" [checked]="todo.status==='done'">
+<a data-toggle="collapse" href="#{{contentId}}" aria-expanded="false">{{todo.title}}</a>
+<div id="{{contentId}}" class="collapse">
+  <p>{{todo.description}}</p>
+  <p>Created at: {{todo.created}}</p>
+</div>
 <span class="close" (click)="deleteTodo(todo.id); $event.stopPropagation()">&#215;</span>

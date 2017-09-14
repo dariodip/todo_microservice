@@ -38,25 +38,20 @@ ul li:hover {
 
 /* When clicked on, add a background color and strike out text */
 ul li.checked {
-    background: #888;
-    color: #fff;
     text-decoration: line-through;
 }
 
-/* Add a "checked" mark when clicked on */
-ul li.checked::before {
+.checkbox {
     content: '';
     position: absolute;
     border-color: #fff;
     border-style: solid;
     border-width: 0 2px 2px 0;
-    top: 10px;
+    top: 11px;
     left: 16px;
-    transform: rotate(45deg);
-    height: 15px;
-    width: 7px;
+    height: 30px;
+    width: 14px;
 }
-
 /* Style the close button */
 .close {
     position: absolute;

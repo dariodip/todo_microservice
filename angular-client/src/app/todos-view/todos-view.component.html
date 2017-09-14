@@ -1,5 +1,5 @@
 <ul id="myUL">
-  <li *ngFor="let todo of todos">
+  <li *ngFor="let todo of todos" [class.checked]="todo.status === 'done'">
     <app-todo-detail [todo]="todo" (clickDelete)="deleteTodo($event)"></app-todo-detail>
   </li>
 </ul>
