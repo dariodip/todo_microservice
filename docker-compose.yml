@@ -2,7 +2,7 @@ version: "3"
 
 services:
   server:
-    build: python-server
+    build: todo-server
     environment:
       - DB_HOST=mongo
       - DB_PORT=27017
@@ -15,18 +15,38 @@ services:
     restart: on-failure
     depends_on:
       - mongo
-  mongo:
-    image: "mongo:3.0.2"
-    ports:
-      - "27017:27017"
+  microtweet:
+    build: microtweet-server
+    environment:
+      - S_HOST=redis
+      - S_PORT=6379
+      - SECRET=insertyoursecret
     networks:
       - webnet
+    volumes:
+      - .:/code_mt
+    restart: on-failure
+    depends_on:
+      - redis
   client:
     build: angular-client
     ports:
       - "4200:4200"
     depends_on:
       - server
+  mongo:
+    image: "mongo:3.0.2"
+    command: "--smallfiles"
+    ports:
+      - "27017:27017"
+    networks:
+      - webnet
+  redis:
+    image: "redis:4.0"
+    ports:
+      - "6379:6379"
+    networks:
+      - webnet
 
 networks:
   webnet:

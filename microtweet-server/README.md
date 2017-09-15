@@ -1,9 +1,9 @@
-# TODO LIST
+# Microtweet Server
 
 In this repository I built a simple microservice using:
 - Flask (as a Framework)
-- connexion (for generate routes and Swagger docs)
-- MongoDB (as a database)
+- Flask-Sockets
+- Redis (as data source)
 
 
 ## Without Docker
@@ -38,7 +38,7 @@ To run the application, simply type:
 
 `python app.py`.
 
-You have to set `DB_HOST` and `DB_PORT` as environment variables.
+You have to set `S_HOST` and `S_PORT` as environment variables.
 
 
 
