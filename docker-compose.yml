@@ -2,7 +2,7 @@ version: "3"
 
 services:
   server:
-    build: python-server
+    build: todo-server
     environment:
       - DB_HOST=mongo
       - DB_PORT=27017
@@ -17,6 +17,7 @@ services:
       - mongo
   mongo:
     image: "mongo:3.0.2"
+    command: "--smallfiles"
     ports:
       - "27017:27017"
     networks:
