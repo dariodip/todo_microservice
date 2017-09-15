@@ -9,12 +9,14 @@ import { TodosApiService} from "./todosapi.service";
 import { TodoService } from "./todo.service";
 import {TodoDetailComponent} from "./todo-detail/todo-detail.component";
 import {TodosViewComponent} from "./todos-view/todos-view.component";
+import { AddTodoComponent } from './add-todo/add-todo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoDetailComponent,
-    TodosViewComponent
+    TodosViewComponent,
+    AddTodoComponent
   ],
   imports: [
     BrowserModule,

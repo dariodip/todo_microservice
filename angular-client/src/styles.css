@@ -72,3 +72,7 @@ ul li.checked {
 .addBtn:hover {
     background-color: #bbb;
 }
+
+.error-text {
+  color: red!important;
+}

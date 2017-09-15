@@ -9,6 +9,7 @@ import 'rxjs/add/operator/toPromise'
 export class TodoService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
+  private maxTodoId: number;
 
   constructor(
     private http: Http,
@@ -32,13 +33,17 @@ export class TodoService {
       for (let param of parameters) {
         url += param + '&';
       }
-    }
 
-    url = url.substr(0, url.length - 1);
+      url = url.substr(0, url.length - 1);
+    }
 
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json() as Todo[])
+      .then(response => {
+        let todos = response.json();
+        this.maxTodoId = Math.max.apply(null, todos.map((todo) => todo.id));
+        return todos;
+      })
       .catch(this.handleError);
   }
 
@@ -54,10 +59,22 @@ export class TodoService {
   updateTodo(todo: Todo): Promise<void> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
                   + '/' + todo.id;
-    return this.http.put(url, JSON.stringify(todo), {headers: this.headers})
+
+    let toReturn = JSON.stringify({
+      "title": todo.title,
+      "description": todo.description,
+      "created": todo.created,
+      "status": todo.status
+    });
+
+    return this.http.put(url, toReturn, {headers: this.headers})
       .toPromise()
       .then(() => todo)
       .catch(this.handleError);
+  }
+
+  getMaxTodoId(): number {
+    return this.maxTodoId;
   }
 
   private handleError(error: any): Promise<any> {
