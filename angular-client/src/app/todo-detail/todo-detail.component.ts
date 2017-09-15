@@ -56,5 +56,8 @@ export class TodoDetailComponent implements OnInit {
     this.disableEditing()
   }
 
-
+  handleHideView(): void {
+    if (this.editable === true) // View opened and in edit mode
+      this.undo()
+  }
 }

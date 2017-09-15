@@ -37,3 +37,14 @@ button.title {
   text-align: left;
 }
 
+button.title:hover {
+  text-decoration: none;
+}
+
+button.title:focus {
+  text-decoration: none;
+}
+
+.error-text {
+  color: red!important;
+}
