@@ -15,9 +15,27 @@ export class TodoService {
     private apiInfo: TodosApiService,
   ) { }
 
-  getTodos(): Promise<Todo[]> {
-    const url = this.apiInfo.base_url + this.apiInfo.todo_path
-                + "?limit=100";
+  getTodos(limit: number, sort: string, status: string): Promise<Todo[]> {
+    let url = this.apiInfo.base_url + this.apiInfo.todo_path;
+    let parameters = [];
+
+    if (limit)
+      parameters.push('limit=' + limit);
+    if (sort)
+      parameters.push('sort=' + sort);
+    if (status)
+      parameters.push('status=' + status);
+
+    if (parameters.length != 0) {
+      url += '?';
+
+      for (let param of parameters) {
+        url += param + '&';
+      }
+    }
+
+    url = url.substr(0, url.length - 1);
+
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as Todo[])

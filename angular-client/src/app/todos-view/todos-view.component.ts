@@ -14,7 +14,7 @@ export class TodosViewComponent implements OnInit {
 
   getTodos(): void {
     this.todoService
-      .getTodos()
+      .getTodos(100, 'desc', null)
       .then(todos => this.todos = todos)
   }
 
