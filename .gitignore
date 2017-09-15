@@ -10,3 +10,6 @@ gen
 
 VENV/*
 __pycache__/
+
+# Visual Code project files
+.vscode
