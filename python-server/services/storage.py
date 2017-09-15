@@ -49,3 +49,16 @@ class TodoSearch(object):
         collection = self.collection
         deleted_result = self.connection()[collection].delete_one(query)
         return deleted_result.deleted_count == 1
+
+    def find_by_tags(self, tags: list) -> list:
+        db = self.connection()
+        collection = self.collection
+        todos_with_tags = self.connection()[collection].find(
+            {
+            'tags.name': {'$in': tags}
+            },
+            {'_id': False}
+        )
+        if todos_with_tags.count() <= 0:
+            return []
+        return [todo for todo in todos_with_tags]
