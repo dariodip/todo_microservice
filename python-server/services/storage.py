@@ -55,10 +55,23 @@ class TodoSearch(object):
         collection = self.collection
         todos_with_tags = self.connection()[collection].find(
             {
-            'tags.name': {'$in': tags}
+            'tags.name': {'$in': tags, '$exists': True}
             },
             {'_id': False}
         )
         if todos_with_tags.count() <= 0:
             return []
         return [todo for todo in todos_with_tags]
+
+    def find_by_status(self, statuses: list) -> list:
+        db = self.connection()
+        collection = self.collection
+        todos_with_statuses = self.connection()[collection].find(
+            {
+                'status': {'$in': statuses}
+            },
+            {'_id': False}
+        )
+        if todos_with_statuses.count() <= 0:
+            return []
+        return [todo for todo in todos_with_statuses]

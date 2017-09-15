@@ -103,9 +103,9 @@ paths:
         items:
           type: "string"
           enum:
-          - "available"
-          - "pending"
-          - "sold"
+          - "active"
+          - "done"
+          - "cancelled"
           default: "available"
         collectionFormat: "multi"
       responses:

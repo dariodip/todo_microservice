@@ -40,13 +40,15 @@ class Todo(object):
         else:
             return NoContent, 404
 
-    def find_by_status(self, status: list):
-        pass
-
     def find_by_tags(self, tags: list):
         if len(tags) <= 0:
             return NoContent, 400
         return self._db.find_by_tags(tags), 200
+
+    def find_by_status(self, status: list):
+        if len(status) <= 0:
+            return NoContent, 400
+        return self._db.find_by_status(status), 200
 
 
 class_instance = injector.get(Todo)
