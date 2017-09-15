@@ -20,6 +20,7 @@
       </div>
       <button type="button" class="btn btn-secondary" (click)="save()"
             [disabled]="!newTodo.title || !newTodo.description">Apply</button>
-      <button type="button" class="btn btn-secondary" (click)="undo()">Cancel</button>
+      <button type="button" class="btn btn-secondary" (click)="undo()" data-toggle="collapse" data-target="#inputForm"
+              aria-expanded="false" aria-controls="inputForm">Cancel</button>
     </div>
 </div>

@@ -15,7 +15,7 @@ ul li {
     cursor: pointer;
     position: relative;
     padding: 12px 8px 12px 40px;
-    background: #eee;
+    background: #F2FFFF;
     font-size: 18px;
     transition: 0.2s;
 
@@ -28,12 +28,12 @@ ul li {
 
 /* Set all odd list items to a different color (zebra-stripes) */
 ul li:nth-child(odd) {
-    background: #f9f9f9;
+    background: #E9FFFF;
 }
 
 /* Darker background-color on hover */
 ul li:hover {
-    background: #ddd;
+    background: #D2FFFF;
 }
 
 /* When clicked on, add a background color and strike out text */
@@ -43,7 +43,7 @@ ul li.checked {
 
 /* Style the header */
 .header {
-    background-color: #f44336;
+    background-color: #025AA5;
     padding: 30px 40px;
     color: white;
     text-align: center;
