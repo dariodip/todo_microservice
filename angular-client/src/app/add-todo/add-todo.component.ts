@@ -24,11 +24,9 @@ export class AddTodoComponent implements OnInit {
       .then(() => null);
 
     this.resetInstance();
+    location.reload();
   }
 
-  getMaxId(): void {
-
-  }
   undo(): void {
     this.resetInstance()
   }
