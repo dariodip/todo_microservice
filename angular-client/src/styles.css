@@ -1,1 +1,78 @@
 /* You can add global styles to this file, and also import other style files */
+/* Include the padding and border in an element's total width and height */
+* {
+    box-sizing: border-box;
+}
+
+/* Remove margins and padding from the list */
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the list items */
+ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    background: #F2FFFF;
+    font-size: 18px;
+    transition: 0.2s;
+
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd) {
+    background: #E9FFFF;
+}
+
+/* Darker background-color on hover */
+ul li:hover {
+    background: #D2FFFF;
+}
+
+/* When clicked on, add a background color and strike out text */
+ul li.checked {
+    text-decoration: line-through;
+}
+
+/* Style the header */
+.header {
+    background-color: #025AA5;
+    padding: 30px 40px;
+    color: white;
+    text-align: center;
+}
+
+/* Clear floats after the header */
+.header:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Style the "Add" button */
+.addBtn {
+    padding: 10px;
+    width: 25%;
+    background: #d9d9d9;
+    color: #555;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.addBtn:hover {
+    background-color: #bbb;
+}
+
+.error-text {
+  color: red!important;
+}
