@@ -1,11 +1,11 @@
-/* TO DO checkbox */
+/* entry checkbox */
 .checkbox {
     content: '';
     position: absolute;
     border-color: #fff;
     border-style: solid;
     border-width: 0 2px 2px 0;
-    top: 11px;
+    top: 14px;
     left: 16px;
     height: 30px;
     width: 14px;
@@ -24,3 +24,16 @@
     background-color: #f44336;
     color: white;
 }
+
+button.title {
+  background:none!important;
+  color:inherit;
+  border:none;
+  padding:0!important;
+  font: inherit;
+  /*border is optional*/
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+

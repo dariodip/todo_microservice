@@ -1,7 +1,8 @@
-<input type="checkbox" class="checkbox" (click)="checkTodo()" [checked]="todo.status==='done'">
+<input type="checkbox" class="checkbox" (click)="checkTodo()" [checked]="todo.status==='done'" [disabled]="editable === true">
 
-<a data-toggle="collapse" href="#{{contentId}}" aria-expanded="false">{{todo.title}}</a>
-
+<button class="btn btn-link title" type="button" data-toggle="collapse" [attr.data-target]="'#' + contentId" aria-expanded="false" [attr.aria-controls]="contentId">
+  {{todo.title}}
+</button>
 <div id="{{contentId}}" class="collapse">
   <div *ngIf="!editable">
     <p>{{todo.description}}</p>
