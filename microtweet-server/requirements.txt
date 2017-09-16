@@ -1,0 +1,11 @@
+click==6.7
+Flask==0.12.2
+Flask-SocketIO==2.9.2
+itsdangerous==0.24
+Jinja2==2.9.6
+MarkupSafe==1.0
+python-engineio==1.7.0
+python-socketio==1.8.0
+redis==2.10.6
+six==1.10.0
+Werkzeug==0.12.2

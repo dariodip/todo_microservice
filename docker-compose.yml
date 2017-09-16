@@ -15,6 +15,25 @@ services:
     restart: on-failure
     depends_on:
       - mongo
+  microtweet:
+    build: microtweet-server
+    environment:
+      - S_HOST=redis
+      - S_PORT=6379
+      - SECRET=insertyoursecret
+    networks:
+      - webnet
+    volumes:
+      - .:/code_mt
+    restart: on-failure
+    depends_on:
+      - redis
+  client:
+    build: angular-client
+    ports:
+      - "4200:4200"
+    depends_on:
+      - server
   mongo:
     image: "mongo:3.0.2"
     command: "--smallfiles"
@@ -22,12 +41,12 @@ services:
       - "27017:27017"
     networks:
       - webnet
-  client:
-    build: angular-client
+  redis:
+    image: "redis:4.0"
     ports:
-      - "4200:4200"
-    depends_on:
-      - server
+      - "6379:6379"
+    networks:
+      - webnet
 
 networks:
   webnet:
