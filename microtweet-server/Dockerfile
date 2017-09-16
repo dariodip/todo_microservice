@@ -1,9 +1,10 @@
 FROM python:3.6
 
-RUN mkdir /code_mt
-WORKDIR /code_mt
-ADD . /code_mt/
+RUN mkdir /app
+WORKDIR /app
+ADD . /app/
 RUN pip install -r requirements.txt
 
 EXPOSE 8000
-CMD ["python", "/code/app.py"]
+ENTRYPOINT ["python"]
+CMD ["app.py"]

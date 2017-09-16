@@ -26,8 +26,6 @@ services:
     volumes:
       - .:/code_mt
     restart: on-failure
-    depends_on:
-      - redis
   client:
     build: angular-client
     ports:
@@ -41,12 +39,14 @@ services:
       - "27017:27017"
     networks:
       - webnet
-  redis:
-    image: "redis:4.0"
+  nginx:
+    image: nginx:1.13.5
     ports:
-      - "6379:6379"
+      - "9000:80"
+    restart: always
+    volumes:
+      - "./api-gateway/nginx.conf:/etc/nginx/nginx.conf"
     networks:
       - webnet
-
 networks:
   webnet:
