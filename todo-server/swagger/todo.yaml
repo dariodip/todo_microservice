@@ -149,9 +149,8 @@ parameters:
     name: todo_id
     description: Todo's Unique identifier
     in: path
-    type: string
+    type: integer
     required: true
-    pattern: "^[a-zA-Z0-9-]+$"
 
 definitions:
   Todo:
@@ -162,9 +161,9 @@ definitions:
       - status
     properties:
       id:
-        type: string
+        type: integer
         description: Unique identifier
-        example: "123"
+        example: 123
         readOnly: true
       title:
         type: string
