@@ -27,4 +27,10 @@ easily change the db, without chaning uppermost layers (e.g. [business layer](ht
 
 ## TODO Client
 
-TODO :-P
+The client written to manage the TODO list, which interacts with the TODO server, is developed using Angular 4.
+
+We generated the app skeleton with [angular-cli](https://github.com/angular/angular-cli). 
+
+### Setup
+
+See [here](https://github.com/dariodip/Todo_microservice/blob/master/angular-client/README.md).
