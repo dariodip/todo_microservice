@@ -10,6 +10,7 @@ export class TodoService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
   private maxTodoId: number;
+  private todos: Todo[];
 
   constructor(
     private http: Http,
@@ -40,19 +41,25 @@ export class TodoService {
     return this.http.get(url)
       .toPromise()
       .then(response => {
-        let todos = response.json();
-        this.maxTodoId = Math.max.apply(null, todos.map((todo) => todo.id));
-        return todos;
+        this.todos = response.json();
+        if (this.todos.length == 0)
+          this.maxTodoId = 0;
+        else
+          this.maxTodoId = Math.max.apply(null, this.todos.map((todo) => todo.id));
+        return this.todos;
       })
       .catch(this.handleError);
   }
 
-  deleteTodo(todoId: number): Promise<void> {
+  deleteTodo(todo: Todo): Promise<void> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
-                  + '/' + todoId;
+                  + '/' + todo.id;
     return this.http.delete(url)
       .toPromise()
-      .then(() => null)
+      .then(() => {
+        let index = this.todos.indexOf(todo);
+        this.todos.splice(index, 1);
+      })
       .catch(this.handleError);
   }
 
@@ -70,6 +77,29 @@ export class TodoService {
     return this.http.put(url, toReturn, {headers: this.headers})
       .toPromise()
       .then(() => todo)
+      .catch(this.handleError);
+  }
+
+  addTodo(todo: Todo): Promise<void> {
+    const url = this.apiInfo.base_url + this.apiInfo.todo_path
+                  + '/' + todo.id;
+
+    let toReturn = JSON.stringify({
+      "title": todo.title,
+      "description": todo.description,
+      "created": todo.created,
+      "status": todo.status
+    });
+
+    return this.http.put(url, toReturn, {headers: this.headers})
+      .toPromise()
+      .then(() => {
+        this.todos.unshift(todo);
+        console.log("Before: " + this.maxTodoId);
+        this.maxTodoId += 1;
+        console.log("After: " +this.maxTodoId);
+        return todo;
+      })
       .catch(this.handleError);
   }
 

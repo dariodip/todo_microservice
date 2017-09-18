@@ -18,11 +18,9 @@ export class TodosViewComponent implements OnInit {
       .then(todos => this.todos = todos)
   }
 
-  deleteTodo(todoId: number): void {
-    this.todoService.deleteTodo(todoId)
-      .then(() => {
-        this.todos = this.todos.filter(t => t.id !== todoId);
-      });
+  deleteTodo(todo: Todo): void {
+    this.todoService.deleteTodo(todo)
+      .then(() => null);
   }
 
   ngOnInit() {

@@ -10,7 +10,7 @@ import {TodoService} from "../todo.service";
 
 export class TodoDetailComponent implements OnInit {
   @Input() todo: Todo;
-  @Output() clickDelete = new EventEmitter<number>();
+  @Output() clickDelete = new EventEmitter<Todo>();
   private contentId: string;
   private editable = false;
   private oldTodo: Todo; //for undoing change
@@ -21,8 +21,8 @@ export class TodoDetailComponent implements OnInit {
     this.contentId = "todo" + this.todo.id;
   }
 
-  deleteTodo(todoId: number): void {
-    this.clickDelete.emit(todoId)
+  deleteTodo(todo: Todo): void {
+    this.clickDelete.emit(todo)
   }
 
   checkTodo(): void {

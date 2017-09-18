@@ -20,11 +20,10 @@ export class AddTodoComponent implements OnInit {
     this.newTodo.created = new Date();
     this.newTodo.status = "active";
     this.newTodo.id = this.todoService.getMaxTodoId() + 1;
-    this.todoService.updateTodo(this.newTodo)
+    this.todoService.addTodo(this.newTodo)
       .then(() => null);
 
     this.resetInstance();
-    location.reload();
   }
 
   undo(): void {
