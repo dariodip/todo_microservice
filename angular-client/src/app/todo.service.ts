@@ -67,14 +67,7 @@ export class TodoService {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
                   + '/' + todo.id;
 
-    let toReturn = JSON.stringify({
-      "title": todo.title,
-      "description": todo.description,
-      "created": todo.created,
-      "status": todo.status
-    });
-
-    return this.http.put(url, toReturn, {headers: this.headers})
+    return this.http.put(url, JSON.stringify(todo), {headers: this.headers})
       .toPromise()
       .then(() => todo)
       .catch(this.handleError);
@@ -84,20 +77,11 @@ export class TodoService {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
                   + '/' + todo.id;
 
-    let toReturn = JSON.stringify({
-      "title": todo.title,
-      "description": todo.description,
-      "created": todo.created,
-      "status": todo.status
-    });
-
-    return this.http.put(url, toReturn, {headers: this.headers})
+    return this.http.put(url, JSON.stringify(todo), {headers: this.headers})
       .toPromise()
       .then(() => {
         this.todos.unshift(todo);
-        console.log("Before: " + this.maxTodoId);
         this.maxTodoId += 1;
-        console.log("After: " +this.maxTodoId);
         return todo;
       })
       .catch(this.handleError);
