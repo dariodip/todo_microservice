@@ -51,11 +51,8 @@ class Todo(object):
         return self._db.find_by_status(status), 200
 
     def create_todo(self, new_todo: dict):
-        max_id = max([todo['id'] for todo in self.get_todos(limit=100)])
-        new_todo['id'] = max_id + 1
         new_todo['status'] = 'active'
-        self._db.update_or_create({'id': new_todo['id']}, new_todo)
-        return new_todo, 201
+        return self._db.create(new_todo), 201
 
 
 class_instance = injector.get(Todo)
