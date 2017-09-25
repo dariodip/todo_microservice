@@ -46,6 +46,53 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Todo'
+    post:
+      tags: [Todo]
+      summary: Create a new Todo
+      operationId: api.todo.class_instance.create_todo
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: new_todo
+          description: The todo to create
+          schema:
+            type: object
+            required:
+              - title
+              - description
+              - created
+            properties:
+              title:
+                type: string
+                description: Todo's title
+                example: "Do this"
+                minLength: 1
+                maxLength: 100
+              description:
+                type: string
+                description: Todo description
+                example: "You have to do it"
+                minLength: 1
+                maxLength: 1000
+              tags:
+                type: array
+                description: Custom tags
+                items:
+                  $ref: "#/definitions/Tag"
+              created:
+                type: string
+                format: date-time
+                description: Creation time
+                example: "2015-07-07T15:49:51.230+02:00"
+                readOnly: true
+      responses:
+        201:
+          description: A new todo was created
+          schema:
+            $ref: '#/definitions/Todo'
   /todos/{todo_id}:
     get:
       tags: [Todo]

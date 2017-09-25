@@ -50,5 +50,9 @@ class Todo(object):
             return NoContent, 400
         return self._db.find_by_status(status), 200
 
+    def create_todo(self, new_todo: dict):
+        new_todo['status'] = 'active'
+        return self._db.create(new_todo), 201
+
 
 class_instance = injector.get(Todo)

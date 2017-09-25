@@ -18,8 +18,6 @@ export class AddTodoComponent implements OnInit {
 
   save(): void {
     this.newTodo.created = new Date();
-    this.newTodo.status = "active";
-    this.newTodo.id = this.todoService.getMaxTodoId() + 1;
     this.todoService.addTodo(this.newTodo)
       .then(() => null);
 

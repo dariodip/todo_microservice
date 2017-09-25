@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+from pymongo.errors import DuplicateKeyError
+from pymongo import DESCENDING
 
 
 class MongoFactory(object):
@@ -25,7 +27,34 @@ class TodoSearch(object):
     def connection(self) -> MongoClient:
         if not self.instance:
             self.instance = self.mongo_factory.create()
+            self.instance[self.db_name][self.collection].create_index('id', unique=True)
         return self.instance[self.db_name]
+
+    def create(self, obj: dict) -> dict:
+        db = self.connection()
+
+        while True:
+
+            collection = db[self.collection]
+            cursor = collection.find(
+                {},
+                {'id': 1}
+            ).sort('id', direction=DESCENDING).limit(1)
+
+            if cursor.count() == 0:
+                obj['id'] = 1
+            else:
+                obj['id'] = cursor.next()['id'] + 1
+
+            try:
+                collection.insert_one(obj)
+                obj.pop('_id', None)  # _id is not serializable!!!!
+            except DuplicateKeyError:
+                continue
+
+            break
+
+        return obj
 
     def find_all(self, query=None) -> list:
         db = self.connection()
