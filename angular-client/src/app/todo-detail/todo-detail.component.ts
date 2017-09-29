@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {NgForm} from "@angular/forms";
 import {Todo} from "../todo";
 import {TodoService} from "../todo.service";
 
@@ -32,7 +33,7 @@ export class TodoDetailComponent implements OnInit {
       this.todo.status = 'active';
 
     this.todoService.updateTodo(this.todo)
-      .then(() => null);
+      .then(result => null);
   }
 
   disableEditing(): void {
@@ -45,14 +46,21 @@ export class TodoDetailComponent implements OnInit {
   }
 
   undo(): void {
-    this.todo.title = this.oldTodo.title;
-    this.todo.description = this.oldTodo.description;
+    this.todo = Object.assign({}, this.oldTodo);
     this.disableEditing();
+  }
+
+  resetForm(todoEditForm: NgForm): void {
+    todoEditForm.resetForm({
+      'name': this.oldTodo.title,
+      'description': this.oldTodo.description
+    });
+    this.disableEditing()
   }
 
   saveChanges(): void {
     this.todoService.updateTodo(this.todo)
-      .then(() => null);
+      .then(result => null);
     this.disableEditing()
   }
 

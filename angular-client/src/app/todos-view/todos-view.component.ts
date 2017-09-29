@@ -10,7 +10,11 @@ import {TodoService} from "../todo.service";
 export class TodosViewComponent implements OnInit {
   todos: Todo[];
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService) {
+    this.todoService.onTodosUpdate.subscribe(todoList => {
+      this.todos = todoList;
+    });
+  }
 
   getTodos(): void {
     this.todoService
@@ -20,7 +24,7 @@ export class TodosViewComponent implements OnInit {
 
   deleteTodo(todo: Todo): void {
     this.todoService.deleteTodo(todo)
-      .then(() => null);
+      .then(result => null);
   }
 
   ngOnInit() {
