@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import {Todo} from "./todo";
 import {TodosApiService} from "./todosapi.service";
@@ -10,6 +10,7 @@ export class TodoService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
   private todos: Todo[];
+  onTodosUpdate = new EventEmitter<Todo[]>();
 
   constructor(
     private http: Http,
@@ -40,41 +41,65 @@ export class TodoService {
     return this.http.get(url)
       .toPromise()
       .then(response => {
-        this.todos = response.json();
-        return this.todos;
+        if (response.status == 200) {
+          this.todos = response.json() as Todo[];
+          this.onTodosUpdate.emit(this.todos);
+          return this.todos;
+        } else
+          return response.json() || {};
       })
       .catch(this.handleError);
   }
 
-  deleteTodo(todo: Todo): Promise<void> {
+  deleteTodo(todo: Todo): Promise<any> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
                   + '/' + todo.id;
     return this.http.delete(url)
       .toPromise()
-      .then(() => {
-        let index = this.todos.indexOf(todo);
-        this.todos.splice(index, 1);
+      .then( response => {
+        if (response.status == 204) {
+          let index = this.todos.indexOf(todo);
+          this.todos.splice(index, 1);
+          this.onTodosUpdate.emit(this.todos);
+          return undefined;
+        } else
+          return response.json() || {};
       })
       .catch(this.handleError);
   }
 
-  updateTodo(todo: Todo): Promise<void> {
+  updateTodo(todo: Todo): Promise<Todo> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
                   + '/' + todo.id;
 
     return this.http.put(url, JSON.stringify(todo), {headers: this.headers})
       .toPromise()
-      .then(() => todo)
+      .then(response => {
+        if (response.status == 200) // to do updated
+          return response.json() as Todo;
+        else if (response.status == 201) { // to do created
+          let new_todo = response.json() as Todo;
+          this.todos.unshift(new_todo);
+          return new_todo;
+        } else
+          return response.json() || {};
+      })
       .catch(this.handleError);
   }
 
-  addTodo(todo: Todo): Promise<void> {
+  addTodo(todo: Todo): Promise<Todo> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path;
 
     return this.http.post(url, JSON.stringify(todo), {headers: this.headers})
       .toPromise()
       .then(response => {
-        this.todos.unshift(response.json());
+        if (response.status == 201) {
+          let new_todo = response.json() as Todo;
+          this.todos.unshift(new_todo);
+          this.onTodosUpdate.emit(this.todos);
+          return new_todo;
+        } else
+          return response.json() || {};
       })
       .catch(this.handleError);
   }
