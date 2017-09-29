@@ -20,6 +20,6 @@ export class AddTodoComponent implements OnInit {
   onSubmit(todoForm: NgForm): void {
     this.newTodo.created = new Date();
     this.todoService.addTodo(this.newTodo)
-      .then(() => todoForm.resetForm({}));
+      .then(result => todoForm.resetForm({}));
   }
 }
