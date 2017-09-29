@@ -33,7 +33,7 @@ export class TodoDetailComponent implements OnInit {
       this.todo.status = 'active';
 
     this.todoService.updateTodo(this.todo)
-      .then(() => null);
+      .then(result => null);
   }
 
   disableEditing(): void {
@@ -60,7 +60,7 @@ export class TodoDetailComponent implements OnInit {
 
   saveChanges(): void {
     this.todoService.updateTodo(this.todo)
-      .then(() => null);
+      .then(result => null);
     this.disableEditing()
   }
 

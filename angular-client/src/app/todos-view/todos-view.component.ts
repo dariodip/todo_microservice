@@ -20,7 +20,7 @@ export class TodosViewComponent implements OnInit {
 
   deleteTodo(todo: Todo): void {
     this.todoService.deleteTodo(todo)
-      .then(() => null);
+      .then(result => null);
   }
 
   ngOnInit() {
