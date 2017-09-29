@@ -10,7 +10,11 @@ import {TodoService} from "../todo.service";
 export class TodosViewComponent implements OnInit {
   todos: Todo[];
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService) {
+    this.todoService.onTodosUpdate.subscribe(todoList => {
+      this.todos = todoList;
+    });
+  }
 
   getTodos(): void {
     this.todoService
