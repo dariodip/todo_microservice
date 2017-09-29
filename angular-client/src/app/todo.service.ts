@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import {Todo} from "./todo";
 import {TodosApiService} from "./todosapi.service";
@@ -9,7 +9,8 @@ import 'rxjs/add/operator/toPromise'
 export class TodoService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private maxTodoId: number;
+  private todos: Todo[];
+  onTodosUpdate = new EventEmitter<Todo[]>();
 
   constructor(
     private http: Http,
@@ -40,41 +41,67 @@ export class TodoService {
     return this.http.get(url)
       .toPromise()
       .then(response => {
-        let todos = response.json();
-        this.maxTodoId = Math.max.apply(null, todos.map((todo) => todo.id));
-        return todos;
+        if (response.status == 200) {
+          this.todos = response.json() as Todo[];
+          this.onTodosUpdate.emit(this.todos);
+          return this.todos;
+        } else
+          return response.json() || {};
       })
       .catch(this.handleError);
   }
 
-  deleteTodo(todoId: number): Promise<void> {
+  deleteTodo(todo: Todo): Promise<any> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
-                  + '/' + todoId;
+                  + '/' + todo.id;
     return this.http.delete(url)
       .toPromise()
-      .then(() => null)
+      .then( response => {
+        if (response.status == 204) {
+          let index = this.todos.indexOf(todo);
+          this.todos.splice(index, 1);
+          this.onTodosUpdate.emit(this.todos);
+          return undefined;
+        } else
+          return response.json() || {};
+      })
       .catch(this.handleError);
   }
 
-  updateTodo(todo: Todo): Promise<void> {
+  updateTodo(todo: Todo): Promise<Todo> {
     const url = this.apiInfo.base_url + this.apiInfo.todo_path
                   + '/' + todo.id;
 
-    let toReturn = JSON.stringify({
-      "title": todo.title,
-      "description": todo.description,
-      "created": todo.created,
-      "status": todo.status
-    });
-
-    return this.http.put(url, toReturn, {headers: this.headers})
+    return this.http.put(url, JSON.stringify(todo), {headers: this.headers})
       .toPromise()
-      .then(() => todo)
+      .then(response => {
+        if (response.status == 200) // to do updated
+          return response.json() as Todo;
+        else if (response.status == 201) { // to do created
+          let new_todo = response.json() as Todo;
+          this.todos.unshift(new_todo);
+          return new_todo;
+        } else
+          return response.json() || {};
+      })
       .catch(this.handleError);
   }
 
-  getMaxTodoId(): number {
-    return this.maxTodoId;
+  addTodo(todo: Todo): Promise<Todo> {
+    const url = this.apiInfo.base_url + this.apiInfo.todo_path;
+
+    return this.http.post(url, JSON.stringify(todo), {headers: this.headers})
+      .toPromise()
+      .then(response => {
+        if (response.status == 201) {
+          let new_todo = response.json() as Todo;
+          this.todos.unshift(new_todo);
+          this.onTodosUpdate.emit(this.todos);
+          return new_todo;
+        } else
+          return response.json() || {};
+      })
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

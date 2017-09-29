@@ -6,4 +6,4 @@ ADD . /code_mt/
 RUN pip install -r requirements.txt
 
 EXPOSE 8000
-CMD ["python", "/code/app.py"]
+CMD ["python", "app.py"]

@@ -1,26 +1,31 @@
 <div id="inputContainer">
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#inputForm" aria-expanded="false"
-            aria-controls="inputForm">
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#inputForm" aria-expanded="false"
+          aria-controls="inputForm" (click)="todoForm.resetForm({})">
     New Todo
-    </button>
-    <div class="collapse" id="inputForm">
+  </button>
+  <div class="collapse" id="inputForm">
+    <form #todoForm="ngForm" (ngSubmit)="onSubmit(todoForm)">
       <div class="form-group">
         <label for="titleInput">Title</label>
-        <input [(ngModel)]="newTodo.title" type="text" class="form-control" id="titleInput" aria-describedby="emailHelp"
-               placeholder="Put your title here">
-        <small [style.visibility]="newTodo.title ? 'hidden':'visible'" id="titleHelp"
-               class="form-text text-muted error-text">I need a title</small>
+        <input [(ngModel)]="newTodo.title" type="text" name="name" class="form-control" id="titleInput"
+               aria-describedby="titleHelp" placeholder="Put your title here" required #name="ngModel">
+        <div *ngIf="name.invalid && (name.dirty || name.touched)">
+          <small id="titleHelp" class="form-text text-muted error-text">I need a title</small>
+        </div>
       </div>
       <div class="form-group">
         <label for="descriptionInput">Description</label>
-        <textarea [(ngModel)]="newTodo.description" class="form-control" id="descriptionInput" rows="3"
-                  placeholder="Put your description here"></textarea>
-        <small [style.visibility]="newTodo.description ? 'hidden':'visible'"
-               id="descriptionHelp" class="form-text text-muted error-text">I need a description</small>
+        <textarea [(ngModel)]="newTodo.description" name="description" class="form-control" id="descriptionInput"
+                  rows="3" placeholder="Put your description here" required #description="ngModel"></textarea>
+        <div *ngIf="description.invalid && (description.dirty || description.touched)">
+          <small id="descriptionHelp" class="form-text text-muted error-text">I need a description</small>
+        </div>
       </div>
-      <button type="button" class="btn btn-secondary" (click)="save()"
-            [disabled]="!newTodo.title || !newTodo.description">Apply</button>
-      <button type="button" class="btn btn-secondary" (click)="undo()" data-toggle="collapse" data-target="#inputForm"
-              aria-expanded="false" aria-controls="inputForm">Cancel</button>
-    </div>
+      <button type="submit" class="btn btn-secondary" [disabled]="todoForm.invalid">Apply</button>
+      <button type="button" class="btn btn-secondary" (click)="todoForm.resetForm({})" data-toggle="collapse"
+              data-target="#inputForm" aria-expanded="false" aria-controls="inputForm">Cancel
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="todoForm.resetForm({})">Reset</button>
+    </form>
+  </div>
 </div>

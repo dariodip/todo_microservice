@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {NgForm} from "@angular/forms";
 import {TodoService} from "../todo.service";
 import {Todo} from "../todo";
 
@@ -13,25 +14,12 @@ export class AddTodoComponent implements OnInit {
   constructor(private todoService: TodoService) { }
 
   ngOnInit() {
-    this.resetInstance();
-  }
-
-  save(): void {
-    this.newTodo.created = new Date();
-    this.newTodo.status = "active";
-    this.newTodo.id = this.todoService.getMaxTodoId() + 1;
-    this.todoService.updateTodo(this.newTodo)
-      .then(() => null);
-
-    this.resetInstance();
-    location.reload();
-  }
-
-  undo(): void {
-    this.resetInstance()
-  }
-
-  resetInstance(): void {
     this.newTodo = new Todo();
+  }
+
+  onSubmit(todoForm: NgForm): void {
+    this.newTodo.created = new Date();
+    this.todoService.addTodo(this.newTodo)
+      .then(result => todoForm.resetForm({}));
   }
 }
