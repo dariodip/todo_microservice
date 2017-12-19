@@ -1,5 +1,5 @@
 # Todo_microservice
-A simple microservice in Python using Flask, connexion, MongoDB, Injection and Angular 4 as front-end.
+A simple microservice developed with Python using Flask, connexion, MongoDB, Injection and Angular 4 as front-end.
 
 This project is fully developed using [Microservice Pattern](http://microservices.io/patterns/microservices.html). 
 
